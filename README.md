@@ -10,6 +10,7 @@ Scripts d'initialisation du compte Snowflake SBI Canada. Paramétrables et repro
 ```
 snowflake_SBI/
 ├── config_files/
+│   ├── 00_variables.sql        ← variable definition
 │   ├── 01_rbac_sso.sql         ← intégration SCIM, SSO, rôles, pont SCIM → fonctionnel
 │   ├── 02_databases.sql        ← DEMO_DB, TRAINING_DB, PROJECTS_DB
 │   ├── 03_warehouses.sql       ← ADMIN_WH, DEMO_WH, TRAINING_WH
