@@ -23,3 +23,8 @@ SET PROJECTS_DB = 'PROJECTS_DB';
 SET ADMIN_WH    = 'ADMIN_WH';
 SET DEMO_WH     = 'DEMO_WH';
 SET TRAINING_WH = 'TRAINING_WH';
+
+-- ─── Intégration Git ──────────────────────────────────────────────────────────
+-- Base et schema où seront stockés les objets Git (SECRET, GIT REPOSITORY)
+SET GIT_DB     = 'PROJECTS_DB';
+SET GIT_SCHEMA = 'PUBLIC';
