@@ -22,25 +22,7 @@ snowflake_SBI/
 
 - [SnowSQL CLI](https://docs.snowflake.com/en/user-guide/snowsql) installé
 - Accès ACCOUNTADMIN sur le compte Snowflake cible
-- Groupes Azure AD créés (`SBI_SNOW_ADMIN`, `SBI_SNOW_DEMO`, `SBI_SNOW_TRAINING`)
-
-## Déploiement
-
-```bash
-# Rendre le script exécutable (une seule fois)
-chmod +x deploy.sh
-
-# Déployer pour SBI Canada
-./deploy.sh config/sbi-canada.env
-```
-
-## Ajouter une nouvelle filiale
-
-1. Copier le modèle : `cp config/template.env.example config/sbi-<filiale>.env`
-2. Remplir les variables du fichier `.env` (compte, région, groupes AAD)
-3. Créer les groupes AAD correspondants dans l'annuaire de la filiale
-4. Exécuter : `./deploy.sh config/sbi-<filiale>.env`
-5. Activer SCIM et SSO manuellement (voir guide d'initialisation)
+- Groupes Azure AD créés (`SBI_NAM_SNOW_ADMIN`, `SBI_NAM_SNOW_DEMO`, `SBI_NAM_SNOW_TRAINING`)
 
 ## Architecture des accès
 
@@ -58,5 +40,3 @@ Les scripts automatisent la création des objets Snowflake. Les étapes SSO/SCIM
 2. Coller le token dans l'application Enterprise Azure → Provisionnement
 3. Attendre le premier cycle de provisionnement
 4. Renseigner les valeurs SAML dans `01_rbac_sso.sql` et activer le SSO
-
-Référencer le **Guide d'initialisation Snowflake SBI** pour les instructions détaillées.
