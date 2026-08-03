@@ -5,9 +5,9 @@
 -- =============================================================================
 
 -- ─── Groupes Azure AD (noms exacts des groupes AAD) ──────────────────────────
-SET ADMIN_AAD_GROUP    = 'SBI_SNOW_ADMIN';
-SET DEMO_AAD_GROUP     = 'SBI_SNOW_DEMO';
-SET TRAINING_AAD_GROUP = 'SBI_SNOW_TRAINING';
+SET ADMIN_AAD_GROUP    = 'SBI_NAM_SNOW_ADMIN';
+SET DEMO_AAD_GROUP     = 'SBI_NAM_SNOW_DEMO';
+SET TRAINING_AAD_GROUP = 'SBI_NAM_SNOW_TRAINING';
 
 -- ─── Rôles fonctionnels ───────────────────────────────────────────────────────
 SET ADMIN_ROLE    = 'ADMIN_ROLE';
