@@ -15,6 +15,7 @@ snowflake_SBI/
 │   ├── 02_databases.sql        ← DEMO_DB, TRAINING_DB, PROJECTS_DB
 │   ├── 03_warehouses.sql       ← ADMIN_WH, DEMO_WH, TRAINING_WH
 │   └── 04_grants.sql           ← tous les grants de permissions
+│   └── 05_git_integration.sql  ← creation du git integration
 └── README.md
 ```
 
