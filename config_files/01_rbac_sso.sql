@@ -46,15 +46,19 @@ CREATE ROLE IF NOT EXISTS IDENTIFIER($TRAINING_ROLE)
   COMMENT = 'Accès en lecture seule à TRAINING_DB — sessions de formation';
 
 -- Pont SCIM → fonctionnel
--- EXECUTE IMMEDIATE n'accepte pas || directement — on passe par une variable intermédiaire.
-SET STMT = 'GRANT ROLE ' || $ADMIN_ROLE    || ' TO ROLE ' || $ADMIN_AAD_GROUP;    EXECUTE IMMEDIATE $STMT;
-SET STMT = 'GRANT ROLE ' || $DEMO_ROLE     || ' TO ROLE ' || $DEMO_AAD_GROUP;     EXECUTE IMMEDIATE $STMT;
-SET STMT = 'GRANT ROLE ' || $TRAINING_ROLE || ' TO ROLE ' || $TRAINING_AAD_GROUP; EXECUTE IMMEDIATE $STMT;
-
+-- Les groupes AAD ont des tirets et une casse mixte : ils doivent être
+-- double-quotés dans la commande SQL. On stocke le nom brut dans la variable
+-- et on ajoute les " lors de la construction de la chaîne.
+--   $ADMIN_AAD_GROUP = 'SF_NAM-ADMIN-Users'
+--   chaîne produite  = GRANT ROLE ADMIN_ROLE TO ROLE "SF_NAM-ADMIN-Users"
+SET STMT = 'GRANT ROLE ' || $ADMIN_ROLE    || ' TO ROLE "' || $ADMIN_AAD_GROUP    || '"'; EXECUTE IMMEDIATE $STMT;
+SET STMT = 'GRANT ROLE ' || $DEMO_ROLE     || ' TO ROLE "' || $DEMO_AAD_GROUP     || '"'; EXECUTE IMMEDIATE $STMT;
+SET STMT = 'GRANT ROLE ' || $TRAINING_ROLE || ' TO ROLE "' || $TRAINING_AAD_GROUP || '"'; EXECUTE IMMEDIATE $STMT;
+ 
 -- Hiérarchie fonctionnelle : ADMIN_ROLE hérite de DEMO et TRAINING
 SET STMT = 'GRANT ROLE ' || $DEMO_ROLE     || ' TO ROLE ' || $ADMIN_ROLE; EXECUTE IMMEDIATE $STMT;
 SET STMT = 'GRANT ROLE ' || $TRAINING_ROLE || ' TO ROLE ' || $ADMIN_ROLE; EXECUTE IMMEDIATE $STMT;
-
+ 
 -- -----------------------------------------------------------------------------
 -- Élever ADMIN_ROLE dans la hiérarchie système (run as SECURITYADMIN)
 -- -----------------------------------------------------------------------------
