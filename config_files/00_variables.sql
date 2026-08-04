@@ -5,9 +5,9 @@
 -- =============================================================================
 
 -- ─── Groupes Azure AD (noms exacts des groupes AAD) ──────────────────────────
-SET ADMIN_AAD_GROUP    = 'SF_NAM-ADMIN-Users';
-SET DEMO_AAD_GROUP     = 'SF_NAM-DEMO-Users';
-SET TRAINING_AAD_GROUP = 'SF_NAM-TRAINING-Users';
+SET ADMIN_AAD_GROUP    = '"SF_NAM-ADMIN-Users"';
+SET DEMO_AAD_GROUP     = '"SF_NAM-DEMO-Users"';
+SET TRAINING_AAD_GROUP = '"SF_NAM-TRAINING-Users"';
 
 -- ─── Rôles fonctionnels ───────────────────────────────────────────────────────
 SET ADMIN_ROLE    = 'ADMIN_ROLE';

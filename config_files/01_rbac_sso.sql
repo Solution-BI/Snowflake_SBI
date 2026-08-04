@@ -19,7 +19,7 @@ CREATE SECURITY INTEGRATION IF NOT EXISTS AZURE_AD_SCIM
 SELECT SYSTEM$GENERATE_SCIM_ACCESS_TOKEN('AZURE_AD_SCIM');
 
 -- Vérification après le premier cycle de provisionnement AAD
--- SHOW ROLES LIKE 'SBI_SNOW_%';
+SHOW ROLES LIKE 'SF_NAM-%';
 
 -- -----------------------------------------------------------------------------
 -- SSO SAML (run as ACCOUNTADMIN — activer APRÈS provisionnement SCIM)
@@ -46,19 +46,17 @@ CREATE ROLE IF NOT EXISTS IDENTIFIER($TRAINING_ROLE)
   COMMENT = 'Accès en lecture seule à TRAINING_DB — sessions de formation';
 
 -- Pont SCIM → fonctionnel
--- IDENTIFIER() n'est pas supporté dans la clause TO ROLE des GRANT ROLE.
--- On utilise EXECUTE IMMEDIATE pour construire la commande dynamiquement.
-EXECUTE IMMEDIATE 'GRANT ROLE ' || $ADMIN_ROLE    || ' TO ROLE ' || $ADMIN_AAD_GROUP;
-EXECUTE IMMEDIATE 'GRANT ROLE ' || $DEMO_ROLE     || ' TO ROLE ' || $DEMO_AAD_GROUP;
-EXECUTE IMMEDIATE 'GRANT ROLE ' || $TRAINING_ROLE || ' TO ROLE ' || $TRAINING_AAD_GROUP;
+-- EXECUTE IMMEDIATE n'accepte pas || directement — on passe par une variable intermédiaire.
+SET STMT = 'GRANT ROLE ' || $ADMIN_ROLE    || ' TO ROLE ' || $ADMIN_AAD_GROUP;    EXECUTE IMMEDIATE $STMT;
+SET STMT = 'GRANT ROLE ' || $DEMO_ROLE     || ' TO ROLE ' || $DEMO_AAD_GROUP;     EXECUTE IMMEDIATE $STMT;
+SET STMT = 'GRANT ROLE ' || $TRAINING_ROLE || ' TO ROLE ' || $TRAINING_AAD_GROUP; EXECUTE IMMEDIATE $STMT;
 
 -- Hiérarchie fonctionnelle : ADMIN_ROLE hérite de DEMO et TRAINING
-EXECUTE IMMEDIATE 'GRANT ROLE ' || $DEMO_ROLE     || ' TO ROLE ' || $ADMIN_ROLE;
-EXECUTE IMMEDIATE 'GRANT ROLE ' || $TRAINING_ROLE || ' TO ROLE ' || $ADMIN_ROLE;
+SET STMT = 'GRANT ROLE ' || $DEMO_ROLE     || ' TO ROLE ' || $ADMIN_ROLE; EXECUTE IMMEDIATE $STMT;
+SET STMT = 'GRANT ROLE ' || $TRAINING_ROLE || ' TO ROLE ' || $ADMIN_ROLE; EXECUTE IMMEDIATE $STMT;
 
 -- -----------------------------------------------------------------------------
 -- Élever ADMIN_ROLE dans la hiérarchie système (run as SECURITYADMIN)
 -- -----------------------------------------------------------------------------
 USE ROLE SECURITYADMIN;
-EXECUTE IMMEDIATE 'GRANT ROLE ' || $ADMIN_ROLE || ' TO ROLE SYSADMIN';
-
+SET STMT = 'GRANT ROLE ' || $ADMIN_ROLE || ' TO ROLE SYSADMIN'; EXECUTE IMMEDIATE $STMT;
